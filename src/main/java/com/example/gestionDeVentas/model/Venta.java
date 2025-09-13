@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Data
 @Entity
-@Table(name="ventas")
+@Table(name = "ventas")
 public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +24,11 @@ public class Venta {
     private Sucursal sucursal;
 
     @ManyToMany
-   @JoinTable(name = "producto_venta",
-           joinColumns = @JoinColumn(name = "producto_id"),
-           inverseJoinColumns = @JoinColumn(name = "venta_id")
-   )
+    @JoinTable(name = "producto_venta",
+            joinColumns = @JoinColumn(name = "producto_id"),
+            inverseJoinColumns = @JoinColumn(name = "venta_id")
+    )
     private List<Producto> productosVendidos = new ArrayList<>();
+    @ElementCollection
+    private Map<Producto, Integer> cantidadDeProductoVendido = new HashMap<>();
 }

@@ -3,6 +3,7 @@ package com.example.gestionDeVentas.controller;
 import com.example.gestionDeVentas.dto.ProductoDto;
 import com.example.gestionDeVentas.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,26 +16,26 @@ public class ProductoController {
     private ProductoService service;
 
     @GetMapping
-    public ResponseEntity<List<ProductoDto>> listar(){
+    public ResponseEntity<List<ProductoDto>> listar() {
         return ResponseEntity.ok(service.listar());
     }
 
     @PostMapping
-    public ResponseEntity<String> agregarProducto(@RequestBody ProductoDto productoDto){
+    public ResponseEntity<String> agregarProducto(@RequestBody ProductoDto productoDto) {
         service.agregarProducto(productoDto);
-        return ResponseEntity.ok("Producto creado");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Producto creado correctamente");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> actualizarProducto(@RequestBody ProductoDto productoDto,
-                                                     @PathVariable Long id){
-        service.actualizarProducto(productoDto,id);
+                                                     @PathVariable Long id) {
+        service.actualizarProducto(productoDto, id);
         return ResponseEntity.ok("Producto actualizado correctamente");
     }
 
-@DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarProducto(@PathVariable Long id){
-      service.eliminarProducto(id);
-      return ResponseEntity.ok("Producto eliminado correctamente");
-}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminarProducto(@PathVariable Long id) {
+        service.eliminarProducto(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Producto eliminado correctamente");
+    }
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class VentaDto {
-    private Long productoId;
-    private String nombreProducto;
-    private Map<String,Integer> productosVendidos = new HashMap<>();
+    private Long ventaId;
+    private Long ventaSucursalId;
+    private Map<Long, Integer> productosVendidos = new HashMap<>();
 }
