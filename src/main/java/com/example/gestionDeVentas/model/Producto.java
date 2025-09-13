@@ -27,7 +27,4 @@ public class Producto {
 
     @ManyToMany(mappedBy = "productosVendidos")
    private List<Venta> ventas = new ArrayList<>();
-    @ElementCollection
-    private Map<Long,Integer> cantidadDeProductoVendido =new HashMap<>();
-
 }
