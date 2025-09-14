@@ -6,6 +6,7 @@ import com.example.gestionDeVentas.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +24,18 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
         // pasar comprobacion a capa service
-
-        //mañana Comprobar esto...
-        if ("user".equals(usuario.getUsername()) && "password".equals(usuario.getPassword())) {
-            String token = jwtService.generarToken(usuario.getUsername());
-            return ResponseEntity.ok(token);
-        } else
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        // mañana Comprobar esto...
+        try {
+            boolean valido = usuarioService.autenticar(usuario.getUsername(), usuario.getPassword());
+            if (valido) {
+                String token = jwtService.generarToken(usuario.getUsername());
+                return ResponseEntity.ok(token);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales invalidas");
+            }
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado");
+        }
     }
 
     @PostMapping("/registro")
