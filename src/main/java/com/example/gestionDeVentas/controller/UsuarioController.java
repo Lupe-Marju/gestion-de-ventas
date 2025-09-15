@@ -17,25 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 
     @Autowired
-    private JwtService jwtService;
-    @Autowired
     private UsuarioService usuarioService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
-        // pasar comprobacion a capa service
-        // mañana Comprobar esto...
-        try {
-            boolean valido = usuarioService.autenticar(usuario.getUsername(), usuario.getPassword());
-            if (valido) {
-                String token = jwtService.generarToken(usuario.getUsername());
-                return ResponseEntity.ok(token);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales invalidas");
-            }
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado");
-        }
+    public ResponseEntity<String> login(@RequestBody Usuario usuario) {
+        // pasar comprobacion a capa
+        return ResponseEntity.ok(usuarioService.comprobarUsuario(usuario));
     }
 
     @PostMapping("/registro")

@@ -3,6 +3,9 @@ package com.example.gestionDeVentas.service;
 import com.example.gestionDeVentas.model.Usuario;
 import com.example.gestionDeVentas.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +23,10 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository repository;
+
+    @Autowired
+    private JwtService jwtService;
+
     //Registramos usuario con contraseña encriptada
     public void registrar(String username, String password){
         Usuario usuario = new Usuario();
@@ -32,6 +39,15 @@ public class UsuarioService implements UserDetailsService {
         Usuario usuario = repository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("Usuaio no encontrado"));
         return passwordEncoder.matches(passwordIngresada, usuario.getPassword());
+    }
+
+    public String comprobarUsuario(Usuario usuario){
+        boolean valido = autenticar(usuario.getUsername(), usuario.getPassword());
+        if (valido) {
+            return jwtService.generarToken(usuario.getUsername());
+        } else {
+            throw new IllegalArgumentException("Contraseña no valida");
+        }
     }
 
     @Override
