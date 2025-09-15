@@ -6,6 +6,7 @@ import com.example.gestionDeVentas.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,20 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 
     @Autowired
-    private JwtService jwtService;
-    @Autowired
     private UsuarioService usuarioService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
-        // pasar comprobacion a capa service
-
-        //mañana Comprobar esto...
-        if ("user".equals(usuario.getUsername()) && "password".equals(usuario.getPassword())) {
-            String token = jwtService.generarToken(usuario.getUsername());
-            return ResponseEntity.ok(token);
-        } else
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<String> login(@RequestBody Usuario usuario) {
+        // pasar comprobacion a capa
+        return ResponseEntity.ok(usuarioService.comprobarUsuario(usuario));
     }
 
     @PostMapping("/registro")
