@@ -17,18 +17,21 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate fechaDeCreacion;
-    private boolean eliminada;
+    private boolean eliminada =false;
 
     @ManyToOne
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
 
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(name = "producto_venta",
             joinColumns = @JoinColumn(name = "producto_id"),
             inverseJoinColumns = @JoinColumn(name = "venta_id")
     )
     private List<Producto> productosVendidos = new ArrayList<>();
     @ElementCollection
-    private Map<Producto, Integer> cantidadDeProductoVendido = new HashMap<>();
+    private Map<Producto, Integer> cantidadDeProductoVendido = new HashMap<>();*/
+
+    @OneToMany(mappedBy = "venta")
+    private List<VentaItem> items = new ArrayList<>();
 }

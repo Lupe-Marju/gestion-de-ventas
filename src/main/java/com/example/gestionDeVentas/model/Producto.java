@@ -20,11 +20,9 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true)
+    //@Column(nullable = true)
+    @Column(nullable = false)
     private String nombre;
     private Double precio;
     private String categoria;
-
-    @ManyToMany(mappedBy = "productosVendidos")
-   private List<Venta> ventas = new ArrayList<>();
 }

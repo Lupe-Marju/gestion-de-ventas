@@ -36,6 +36,6 @@ public class SucursalController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarSucursal(@PathVariable Long id){
         service.eliminarsucursal(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Sucursal eliminada correctamente");
+        return ResponseEntity.ok("Sucursal eliminada correctamente");
     }
 }

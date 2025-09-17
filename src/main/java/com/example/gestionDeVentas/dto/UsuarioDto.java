@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SucursalDto {
-    private Long idSucursal;
-    private String nombreSucursal;
-    private String direccionSucursal;
+public class UsuarioDto {
+    private String username;
+    private String password;
 }

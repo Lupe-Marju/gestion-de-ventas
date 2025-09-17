@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface VentaRepository extends JpaRepository<Venta,Long> {
-    // List<Venta> findBySucursalId(Long sucursalId);
-    // List<Venta> findBySucursalIdAndFecha(Long sucursalid, LocalDate fecha);
-    // List<Venta> fibdByFecha(LocalDate fecha);
+    List<Venta> findBySucursalId(Long sucursalId);
+    List<Venta> findByFechaDeCreacion(LocalDate fecha);
+    List<Venta> findBySucursalIdAndFechaDeCreacion(Long sucursalId,LocalDate fecha);
 }

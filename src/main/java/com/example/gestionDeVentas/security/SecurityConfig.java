@@ -26,8 +26,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/usuario/**","/api/get/productos","/api/get/ventas","/api/get/sucursales").permitAll()
-                        .requestMatchers("/api/productos","/api/ventas","/api/sucursales").authenticated()
+                        // permitir swagger, login/registro y GET públicos
+                        .requestMatchers("/usuario/**", "/doc/**", "/v3/api-docs/**", "/swagger-ui/**", "/api/get/productos", "/api/get/sucursales", "/api/get/ventas").permitAll()
+                        // proteger mutating endpoints
+                        .requestMatchers("/api/productos/**", "/api/sucursales/**", "/api/ventas/**", "/api/estadisticas/**").authenticated()
                         .anyRequest().authenticated())
                 .formLogin(form->form.defaultSuccessUrl("/",true))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
