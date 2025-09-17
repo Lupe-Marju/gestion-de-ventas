@@ -25,7 +25,4 @@ public class Producto {
     private String nombre;
     private Double precio;
     private String categoria;
-
-    /*@ManyToMany(mappedBy = "productosVendidos")
-   private List<Venta> ventas = new ArrayList<>();*/
 }

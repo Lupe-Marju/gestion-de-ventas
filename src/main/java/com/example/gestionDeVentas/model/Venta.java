@@ -32,6 +32,6 @@ public class Venta {
     @ElementCollection
     private Map<Producto, Integer> cantidadDeProductoVendido = new HashMap<>();*/
 
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "venta")
     private List<VentaItem> items = new ArrayList<>();
 }

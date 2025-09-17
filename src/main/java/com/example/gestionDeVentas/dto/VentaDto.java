@@ -15,5 +15,4 @@ public class VentaDto {
     private Long ventaId;
     private Long ventaSucursalId;
     private List<VentaItemDto> detalle;
-    //private Map<Long, Integer> productosVendidos = new HashMap<>();
 }

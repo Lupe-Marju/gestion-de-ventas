@@ -22,8 +22,7 @@ public class VentaController {
     @PostMapping
     public ResponseEntity<String> registrarVenta(@RequestBody VentaDto ventaDto){
         service.registrarVenta(ventaDto);
-        //return ResponseEntity.status(HttpStatus.CREATED).body("Venta registrada correctamente");
-        return ResponseEntity.status(201).body("Venta registrada correctamente");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Venta registrada correctamente");
     }
 
     @GetMapping
@@ -34,8 +33,8 @@ public class VentaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarVenta(@PathVariable Long id){
+    public ResponseEntity<String> eliminarVenta(@PathVariable Long id){
         service.eliminarVentaLogico(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Sucursal eliminada correctamente");
     }
 }

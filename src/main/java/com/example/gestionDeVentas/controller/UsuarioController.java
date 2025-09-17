@@ -25,7 +25,6 @@ public class UsuarioController {
         String token = usuarioService.comprobarUsuario(usuario);
         return ResponseEntity.ok(token);
         // pasar comprobacion a capa
-        //return ResponseEntity.ok(usuarioService.comprobarUsuario(usuario));
     }
 
     @PostMapping("/registro")
