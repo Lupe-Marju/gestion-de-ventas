@@ -16,15 +16,11 @@ public class SucursalService {
 
     public SucursalDto convertirSucursalaDto(Sucursal sucursal){
         return new SucursalDto(sucursal.getId(), sucursal.getNombre(), sucursal.getDireccion());
-        /*SucursalDto sucursalDto =new SucursalDto(
-                sucursal.getId(),sucursal.getNombre(), sucursal.getDireccion());
-        return sucursalDto;*/
     }
 
     public List<SucursalDto> listarSucursales() {
         return repository.findAll().stream()
                 .map(this::convertirSucursalaDto).toList();
-                //.map(a->convertirSucursalaDto(a)).toList();
     }
 
     public void crearSucursal(SucursalDto sucursalDto) {

@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -27,14 +27,11 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         // permitir swagger, login/registro y GET públicos
-                        .requestMatchers("/usuario/**", "/doc/**", "/v3/api-docs/**", "/swagger-ui/**", "/api/productos", "/api/sucursales", "/api/ventas").permitAll()
+                        .requestMatchers("/usuario/**", "/doc/**", "/v3/api-docs/**", "/swagger-ui/**", "/api/get/productos", "/api/get/sucursales", "/api/get/ventas").permitAll()
                         // proteger mutating endpoints
                         .requestMatchers("/api/productos/**", "/api/sucursales/**", "/api/ventas/**", "/api/estadisticas/**").authenticated()
-
-                        /*.requestMatchers("/usuario/**","/api/get/productos","/api/get/ventas","/api/get/sucursales").permitAll()
-                        .requestMatchers("/api/productos","/api/ventas","/api/sucursales").authenticated()*/
                         .anyRequest().authenticated())
-                //.formLogin(form->form.defaultSuccessUrl("/",true))//
+                .formLogin(form->form.defaultSuccessUrl("/",true))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtfilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

@@ -35,19 +35,15 @@ public class VentaService {
 
     @Transactional
     public void registrarVenta(VentaDto ventaDto) {
-        if (ventaDto == null || ventaDto.getVentaSucursalId() == null || ventaDto.getDetalle() == null || ventaDto.getDetalle().isEmpty())
-            throw new IllegalArgumentException("Payload de venta inválido");
+        if (ventaDto == null || ventaDto.getVentaSucursalId() == null || ventaDto.getVentaSucursalId()>0 || ventaDto.getDetalle() == null || ventaDto.getDetalle().isEmpty())
+            throw new IllegalArgumentException("Los campos ingresados no son correctos");
 
         Sucursal sucursal = sucursalRepository.findById(ventaDto.getVentaSucursalId())
                 .orElseThrow(() -> new SucursalNotFoundException("La sucursal con id " + ventaDto.getVentaSucursalId() + " no fue encontrada"));
 
         Venta venta = new Venta();
         venta.setSucursal(sucursal);
-        /*venta.setSucursal(sucursalRepository.findById(ventaDto.getVentaSucursalId())
-                .orElseThrow(() -> new SucursalNotFoundException("La sucursal con id " + ventaDto.getVentaSucursalId() + " no fue encontrada")));*/
-
         venta.setFechaDeCreacion(LocalDate.now());
-        venta.setEliminada(false);
 
         // crear items y agregar al objeto venta
         for (VentaItemDto itemDto : ventaDto.getDetalle()) {
@@ -61,9 +57,8 @@ public class VentaService {
             item.setProducto(producto);
             item.setCantidad(itemDto.getCantidad());
             venta.getItems().add(item);
+            ventaItemRepository.save(item);
         }
-
-        // guarda venta (cascade persistirá items)
         ventaRepository.save(venta);
     }
 
@@ -81,7 +76,7 @@ public class VentaService {
 
     @Transactional
     public void eliminarVentaLogico(Long id) {
-        Venta venta = ventaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Venta no encontrada"));
+        Venta venta = ventaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("La venta con id " +id + " no fue encontrada"));
         venta.setEliminada(true);
         ventaRepository.save(venta);
     }
