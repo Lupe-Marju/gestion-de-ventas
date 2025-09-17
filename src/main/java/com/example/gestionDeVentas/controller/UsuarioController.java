@@ -21,8 +21,11 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Usuario usuario) {
+        // delega en service la comprobación y generación del token
+        String token = usuarioService.comprobarUsuario(usuario);
+        return ResponseEntity.ok(token);
         // pasar comprobacion a capa
-        return ResponseEntity.ok(usuarioService.comprobarUsuario(usuario));
+        //return ResponseEntity.ok(usuarioService.comprobarUsuario(usuario));
     }
 
     @PostMapping("/registro")
