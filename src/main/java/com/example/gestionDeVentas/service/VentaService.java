@@ -35,9 +35,8 @@ public class VentaService {
 
     @Transactional
     public void registrarVenta(VentaDto ventaDto) {
-        if (ventaDto == null || ventaDto.getVentaSucursalId() == null || ventaDto.getVentaSucursalId()>0 || ventaDto.getDetalle() == null || ventaDto.getDetalle().isEmpty())
+        if (ventaDto == null || ventaDto.getVentaSucursalId() == null || ventaDto.getVentaSucursalId()<0 || ventaDto.getDetalle() == null || ventaDto.getDetalle().isEmpty())
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
-
         Sucursal sucursal = sucursalRepository.findById(ventaDto.getVentaSucursalId())
                 .orElseThrow(() -> new SucursalNotFoundException("La sucursal con id " + ventaDto.getVentaSucursalId() + " no fue encontrada"));
 
