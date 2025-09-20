@@ -3,6 +3,7 @@ package com.example.gestionDeVentas.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,7 +28,8 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         // permitir swagger, login/registro y GET públicos
-                        .requestMatchers("/usuario/**", "/doc/**", "/v3/api-docs/**", "/swagger-ui/**", "/api/get/productos", "/api/get/sucursales", "/api/get/ventas").permitAll()
+                        .requestMatchers("/usuario/**", "/doc/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/productos","/api/sucursales","/api/ventas").permitAll()
                         // proteger mutating endpoints
                         .requestMatchers("/api/productos/**", "/api/sucursales/**", "/api/ventas/**", "/api/estadisticas/**").authenticated()
                         .anyRequest().authenticated())
