@@ -35,6 +35,6 @@ public class VentaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarVenta(@PathVariable Long id){
         service.eliminarVentaLogico(id);
-        return ResponseEntity.ok("Sucursal eliminada correctamente");
+        return ResponseEntity.ok("Venta eliminada correctamente");
     }
 }
