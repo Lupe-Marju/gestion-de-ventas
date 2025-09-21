@@ -1,6 +1,6 @@
-package com.example.gestionDeVentas.controller;
+package com.example.gestionDeVentas;
 
-import com.example.gestionDeVentas.GestionDeVentasApplication;
+import com.example.gestionDeVentas.dto.UsuarioDto;
 import com.example.gestionDeVentas.model.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GestionDeVentasApplication.class)
 @AutoConfigureMockMvc
 @Transactional
-
 public class UsuarioControllerIT {
 
     @Autowired
@@ -27,15 +26,14 @@ public class UsuarioControllerIT {
     private ObjectMapper objectMapper;
 
     @Test
-    void login_ok() throws Exception {
-        Usuario u = new Usuario();
-        u.setUsername("user1");
-        u.setPassword("password");
+    void loginOk() throws Exception {
+        UsuarioDto u = new UsuarioDto();
+        u.setMyUsername("user1");
+        u.setMyPassword("password");
         mockMvc.perform(post("/usuario/registro")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(u)))
                 .andExpect(status().isCreated());
-
 
         mockMvc.perform(post("/usuario/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -43,15 +41,14 @@ public class UsuarioControllerIT {
                 .andExpect(status().isOk());}
 
     @Test
-    void registrar_ok() throws Exception {
-        Usuario u = new Usuario();
-        u.setUsername("nuevo");
-        u.setPassword("pass");
-
+    void registrarOk() throws Exception {
+        UsuarioDto u = new UsuarioDto();
+        u.setMyUsername("nuevo");
+        u.setMyPassword("pass");
         mockMvc.perform(post("/usuario/registro")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(u)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().string("Usuario registrado correctamente"));
     }
 }
