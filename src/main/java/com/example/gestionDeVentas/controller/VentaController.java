@@ -1,7 +1,6 @@
 package com.example.gestionDeVentas.controller;
 
 import com.example.gestionDeVentas.dto.VentaDto;
-import com.example.gestionDeVentas.model.Venta;
 import com.example.gestionDeVentas.service.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

@@ -20,5 +20,4 @@ public class GestionDeVentasApplication {
 				.version("1.1")
 				.description("La API ejecuta un CRUD de las sucursales, de los productos y de las ventas"));
 	}
-
 }

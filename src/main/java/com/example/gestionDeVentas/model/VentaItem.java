@@ -1,7 +1,5 @@
 package com.example.gestionDeVentas.model;
 
-// modela producto + cantidad por venta
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
