@@ -18,10 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VentaService {
@@ -34,19 +32,19 @@ public class VentaService {
     @Autowired
     private VentaItemRepository ventaItemRepository;
 
-    public VentaDto convertirVentaAVentaDto(Venta venta){
+    public VentaDto convertirVentaAVentaDto(Venta venta) {
         VentaDto ventaDto = new VentaDto();
         ventaDto.setVentaId(venta.getId());
         ventaDto.setVentaSucursalId(venta.getSucursal().getId());
-        for(VentaItem ventaItem : venta.getItems()){
-ventaDto.getDetalle().add(new VentaItemDto(ventaItem.getProducto().getId(),ventaItem.getCantidad()));
+        for (VentaItem ventaItem : venta.getItems()) {
+            ventaDto.getDetalle().add(new VentaItemDto(ventaItem.getProducto().getId(), ventaItem.getCantidad()));
         }
         return ventaDto;
     }
 
     @Transactional
     public void registrarVenta(VentaDto ventaDto) {
-        if (ventaDto == null || ventaDto.getVentaSucursalId() == null || ventaDto.getVentaSucursalId()<0 || ventaDto.getDetalle() == null || ventaDto.getDetalle().isEmpty())
+        if (ventaDto == null || ventaDto.getVentaSucursalId() == null || ventaDto.getVentaSucursalId() < 0 || ventaDto.getDetalle() == null || ventaDto.getDetalle().isEmpty())
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
         Sucursal sucursal = sucursalRepository.findById(ventaDto.getVentaSucursalId())
                 .orElseThrow(() -> new SucursalNotFoundException("La sucursal con id " + ventaDto.getVentaSucursalId() + " no fue encontrada"));
@@ -76,25 +74,25 @@ ventaDto.getDetalle().add(new VentaItemDto(ventaItem.getProducto().getId(),venta
         if (sucursalId.isPresent() && fecha.isPresent()) {
             return ventaRepository.findBySucursalIdAndFechaDeCreacion(sucursalId.get(), fecha.get())
                     .stream()
-                    .filter(a->!a.isEliminada())
+                    .filter(a -> !a.isEliminada())
                     .map(this::convertirVentaAVentaDto)
                     .toList();
         } else if (sucursalId.isPresent()) {
             return ventaRepository.findBySucursalId(sucursalId.get())
                     .stream()
-                    .filter(a->!a.isEliminada())
+                    .filter(a -> !a.isEliminada())
                     .map(this::convertirVentaAVentaDto)
                     .toList();
         } else if (fecha.isPresent()) {
             return ventaRepository.findByFechaDeCreacion(fecha.get())
                     .stream()
-                    .filter(a->!a.isEliminada())
+                    .filter(a -> !a.isEliminada())
                     .map(this::convertirVentaAVentaDto)
                     .toList();
         } else {
             return ventaRepository.findAll()
                     .stream()
-                    .filter(a->!a.isEliminada())
+                    .filter(a -> !a.isEliminada())
                     .map(this::convertirVentaAVentaDto)
                     .toList();
         }
@@ -102,27 +100,36 @@ ventaDto.getDetalle().add(new VentaItemDto(ventaItem.getProducto().getId(),venta
 
     @Transactional
     public void eliminarVentaLogico(Long id) {
-        Venta venta = ventaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("La venta con id " +id + " no fue encontrada"));
+        Venta venta = ventaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("La venta con id " + id + " no fue encontrada"));
         venta.setEliminada(true);
         ventaRepository.save(venta);
     }
 
     // producto mas vendido (suma cantidades)
-    public Optional<Map.Entry<ProductoDto, Integer>> productoMasVendido() {
-        List<Venta> ventas = ventaRepository.findAll();
-        Map<ProductoDto, Integer> totals = new HashMap<>();
+    public List<AbstractMap.SimpleEntry<ProductoDto, Integer>> productoMasVendido(int topN) {
+        if (topN <= 0) throw new IllegalArgumentException("El parametro debe ser mayor a 0");
+        List<Venta> ventas = ventaRepository.findByEliminadaFalse();
+        Map<Long, Integer> totals = new HashMap<>();
+        Map<Long, ProductoDto> productoDtoMap = new HashMap<>();
+
+            //Suma cantidades por producto
         for (Venta v : ventas) {
             for (VentaItem item : v.getItems()) {
-                Producto producto =  item.getProducto();
-                    ProductoDto productoDto = new ProductoDto(producto.getId(),
-                            producto.getNombre(),
-                            producto.getPrecio(),
-                            producto.getCategoria());
-                    totals.put(productoDto, totals.getOrDefault(productoDto, 0) + item.getCantidad());
-
+                Producto producto = item.getProducto();
+                productoDtoMap.putIfAbsent(producto.getId(), new ProductoDto(
+                        producto.getId(),
+                        producto.getNombre(),
+                        producto.getPrecio(),
+                        producto.getCategoria()
+                ));
+                totals.put(producto.getId(), totals.getOrDefault(producto.getId(), 0) + item.getCantidad());
             }
         }
-        return totals.entrySet().stream().max(Map.Entry.comparingByValue());
 
+        return totals.entrySet().stream()
+                .sorted(Map.Entry.<Long, Integer>comparingByValue().reversed())
+                .limit(topN)
+                .map(e -> new AbstractMap.SimpleEntry<>(productoDtoMap.get(e.getKey()), e.getValue()))
+                .toList();
     }
 }

@@ -12,4 +12,5 @@ public interface VentaRepository extends JpaRepository<Venta,Long> {
     List<Venta> findBySucursalId(Long sucursalId);
     List<Venta> findByFechaDeCreacion(LocalDate fecha);
     List<Venta> findBySucursalIdAndFechaDeCreacion(Long sucursalId,LocalDate fecha);
+    List<Venta> findByEliminadaFalse();
 }
