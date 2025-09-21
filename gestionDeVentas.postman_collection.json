@@ -18,7 +18,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdXBlIiwiaWF0IjoxNzU4MzYxNDA3LCJleHAiOjE3NTgzNjMyMDd9.tyuX3023BXRGUzCqhdP8Top9QHc4biX1ePgc3IZZUqQ",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdXBlIiwiaWF0IjoxNzU4NDcwMjA1LCJleHAiOjE3NTg0NzIwMDV9._UPSxVjwxP01DPuhAHG885w_6gw58GkiJeq3qJt4yBU",
 									"type": "string"
 								}
 							]
@@ -27,7 +27,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombreProducto\":\"mostaza\",\r\n  \"precioProducto\":\"12\",\r\n  \"categoriaProducto\":\"condimento\"\r\n}",
+							"raw": "{\r\n  \"nombreProducto\":\"sandia\",\r\n  \"precioProducto\":\"13.2\",\r\n  \"categoriaProducto\":\"fruta\",\r\n  \"cantidadProducto\":\"-12\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -87,7 +87,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdXBlIiwiaWF0IjoxNzU4MzU5NTI2LCJleHAiOjE3NTgzNjEzMjZ9.g71VOIdzpIvVurocsJ0rP0b-BIVICkWdE4fw9wa84fw",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdXBlIiwiaWF0IjoxNzU4NDcwMjA1LCJleHAiOjE3NTg0NzIwMDV9._UPSxVjwxP01DPuhAHG885w_6gw58GkiJeq3qJt4yBU",
 									"type": "string"
 								}
 							]
@@ -96,7 +96,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombreProducto\":\"chocolates\",\r\n  \"precioProducto\":\"12\",\r\n  \"categoriaProducto\":\"dulces\"\r\n}",
+							"raw": "{\r\n  \"nombreProducto\":\"chocolates\",\r\n  \"precioProducto\":\"12\",\r\n  \"categoriaProducto\":\"dulces\",\r\n  \"cantidadProducto\":\"13\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -149,6 +149,38 @@
 								"api",
 								"productos",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "agregar cantidad de producto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdXBlIiwiaWF0IjoxNzU4NDcwMjA1LCJleHAiOjE3NTg0NzIwMDV9._UPSxVjwxP01DPuhAHG885w_6gw58GkiJeq3qJt4yBU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/productos/1/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"productos",
+								"1",
+								"10"
 							]
 						}
 					},

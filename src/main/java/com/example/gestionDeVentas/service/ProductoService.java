@@ -20,6 +20,7 @@ public class ProductoService {
         productoDto.setNombreProducto(producto.getNombre());
         productoDto.setCategoriaProducto(producto.getCategoria());
         productoDto.setPrecioProducto(producto.getPrecio());
+        productoDto.setCantidadProducto(producto.getCantidad());
         return productoDto;
     }
 
@@ -28,35 +29,46 @@ public class ProductoService {
         producto.setPrecio(productoDto.getPrecioProducto());
         producto.setCategoria(productoDto.getCategoriaProducto());
         producto.setNombre(productoDto.getNombreProducto());
+        producto.setCantidad(productoDto.getCantidadProducto());
         return producto;
+    }
+
+    public void restarCantidad(Integer cantidadRestada, Producto producto){
+        producto.setCantidad(producto.getCantidad()-cantidadRestada);
+        repository.save(producto);
     }
 
     public List<ProductoDto> listar() {
         return repository.findAll()
                 .stream()
-                .filter(p->!p.isEliminada())
+                .filter(p -> !p.isEliminada())
                 .map(p -> convertirProductoADto(p))
                 .toList();
     }
 
     public void agregarProducto(ProductoDto productoDto) {
-        if (productoDto.getNombreProducto()==null||
-                productoDto.getNombreProducto().isBlank()||
-        productoDto.getCategoriaProducto()==null||
-        productoDto.getCategoriaProducto().isBlank()||
-        productoDto.getPrecioProducto()==null||
-        productoDto.getPrecioProducto()<=0)
+        if (productoDto.getNombreProducto() == null ||
+                productoDto.getNombreProducto().isBlank() ||
+                productoDto.getCategoriaProducto() == null ||
+                productoDto.getCategoriaProducto().isBlank() ||
+                productoDto.getPrecioProducto() == null ||
+                productoDto.getPrecioProducto() <= 0 ||
+                productoDto.getCantidadProducto() == null||
+                productoDto.getCantidadProducto() <= 0) {
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
+        }
         repository.save(convertirDtoAProducto(productoDto));
     }
 
     public void actualizarProducto(ProductoDto productoDto, Long id) {
-        if (productoDto.getNombreProducto()==null||
-                productoDto.getNombreProducto().isBlank()||
-                productoDto.getCategoriaProducto()==null||
-                productoDto.getCategoriaProducto().isBlank()||
-                productoDto.getPrecioProducto()==null||
-                productoDto.getPrecioProducto()<=0)
+        if (productoDto.getNombreProducto() == null ||
+                productoDto.getNombreProducto().isBlank() ||
+                productoDto.getCategoriaProducto() == null ||
+                productoDto.getCategoriaProducto().isBlank() ||
+                productoDto.getPrecioProducto() == null ||
+                productoDto.getPrecioProducto() <= 0 ||
+                productoDto.getCantidadProducto() == null||
+                productoDto.getCantidadProducto() <= 0)
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
         Producto producto = repository.findById(id).orElseThrow(() -> new ProductoNotFoundException("El producto con id " + id + " no fue encontrado"));
         producto.setNombre(productoDto.getNombreProducto());
@@ -66,8 +78,17 @@ public class ProductoService {
     }
 
     public void eliminarProducto(Long id) {
-        Producto producto = repository.findById(id).orElseThrow(()->new ProductoNotFoundException("El producto con id " + id + " no fue encontrado"));
+        Producto producto = repository.findById(id).orElseThrow(() -> new ProductoNotFoundException("El producto con id " + id + " no fue encontrado"));
         producto.setEliminada(true);
+        repository.save(producto);
+    }
+
+    public void actualizarCantidadDeProducto(Integer cantidadNueva, Long id) {
+        if (cantidadNueva<=0){
+            throw new IllegalArgumentException("Cantidad tiene que ser positiva");
+        }
+        Producto producto = repository.findById(id).orElseThrow(() -> new ProductoNotFoundException("El producto con id " + id + " no fue encontrado"));
+        producto.setCantidad(producto.getCantidad()+cantidadNueva);
         repository.save(producto);
     }
 }

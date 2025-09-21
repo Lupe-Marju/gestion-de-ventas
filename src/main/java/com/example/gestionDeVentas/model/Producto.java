@@ -20,10 +20,17 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@Column(nullable = true)
     @Column(nullable = false)
     private String nombre;
+
+    @Column(nullable = false)
     private Double precio;
+
+    @Column(nullable = false)
     private String categoria;
+
+    @Column(nullable = false)
+    private Integer cantidad;
+
     private boolean eliminada = false;
 }
