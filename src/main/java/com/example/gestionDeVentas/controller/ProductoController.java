@@ -33,6 +33,14 @@ public class ProductoController {
         return ResponseEntity.ok("Producto actualizado correctamente");
     }
 
+    @PatchMapping("/{id}/{cantidadNueva}")
+    public ResponseEntity<String> actualizarProducto(@PathVariable Long id,
+                                                     @PathVariable Integer cantidadNueva) {
+        service.actualizarCantidadDeProducto(cantidadNueva, id);
+        return ResponseEntity.ok("Cantidad de producto agregada correctamente");
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarProducto(@PathVariable Long id) {
         service.eliminarProducto(id);

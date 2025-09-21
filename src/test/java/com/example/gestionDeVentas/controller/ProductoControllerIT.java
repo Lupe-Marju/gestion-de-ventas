@@ -40,7 +40,7 @@ public class ProductoControllerIT {
 
     @Test
     void listarProductosOk() throws Exception {
-        ProductoDto p = new ProductoDto(1L,"Arroz",100.0,"Alimentos");
+        ProductoDto p = new ProductoDto(1L,"Arroz",100.0,"Alimentos",10);
         Mockito.when(productoService.listar()).thenReturn(List.of(p));
 
         mockMvc.perform(get("/api/productos"))
@@ -54,7 +54,7 @@ public class ProductoControllerIT {
 
     @Test
     void crearProductoOk() throws Exception {
-        ProductoDto dto = new ProductoDto(null, "Leche", 50.0, "Lacteos");
+        ProductoDto dto = new ProductoDto(null, "Leche", 50.0, "Lacteos",10);
         Mockito.doNothing().when(productoService).agregarProducto(any(ProductoDto.class));
 
         mockMvc.perform(post("/api/productos")

@@ -12,4 +12,5 @@ public class ProductoDto {
     private String nombreProducto;
     private Double precioProducto;
     private String categoriaProducto;
+    private Integer cantidadProducto;
 }

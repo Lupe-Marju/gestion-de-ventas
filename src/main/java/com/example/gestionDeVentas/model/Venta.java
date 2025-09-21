@@ -16,7 +16,10 @@ public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private LocalDate fechaDeCreacion;
+
     private boolean eliminada =false;
 
     @ManyToOne

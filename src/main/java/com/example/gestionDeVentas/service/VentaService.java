@@ -30,6 +30,8 @@ public class VentaService {
     private ProductoRepository productoRepository;
     @Autowired
     private VentaItemRepository ventaItemRepository;
+    @Autowired
+    private ProductoService productoService;
 
     public VentaDto convertirVentaAVentaDto(Venta venta) {
         VentaDto ventaDto = new VentaDto();
@@ -43,7 +45,11 @@ public class VentaService {
 
     @Transactional
     public void registrarVenta(VentaDto ventaDto) {
-        if (ventaDto == null || ventaDto.getVentaSucursalId() == null || ventaDto.getVentaSucursalId() < 0 || ventaDto.getDetalle() == null || ventaDto.getDetalle().isEmpty())
+        if (ventaDto == null ||
+                ventaDto.getVentaSucursalId() == null ||
+                ventaDto.getVentaSucursalId() < 0 ||
+                ventaDto.getDetalle() == null ||
+                ventaDto.getDetalle().isEmpty())
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
         Sucursal sucursal = sucursalRepository.findById(ventaDto.getVentaSucursalId())
                 .orElseThrow(() -> new SucursalNotFoundException("La sucursal con id " + ventaDto.getVentaSucursalId() + " no fue encontrada"));
@@ -56,8 +62,11 @@ public class VentaService {
         for (VentaItemDto itemDto : ventaDto.getDetalle()) {
             Producto producto = productoRepository.findById(itemDto.getProductoId())
                     .orElseThrow(() -> new ProductoNotFoundException("El producto con id " + itemDto.getProductoId() + " no fue encontrado"));
-            if (itemDto.getCantidad() == null || itemDto.getCantidad() <= 0)
+            if (itemDto.getCantidad() == null ||
+                    itemDto.getCantidad() <= 0 ||
+                    itemDto.getCantidad() > producto.getCantidad())
                 throw new IllegalArgumentException("Cantidad inválida para producto " + producto.getId());
+            productoService.restarCantidad(itemDto.getCantidad(), producto);
 
             VentaItem item = new VentaItem();
             item.setVenta(venta);
@@ -111,7 +120,7 @@ public class VentaService {
         Map<Long, Integer> totals = new HashMap<>();
         Map<Long, ProductoDto> productoDtoMap = new HashMap<>();
 
-            //Suma cantidades por producto
+        // Suma cantidades por producto
         for (Venta v : ventas) {
             for (VentaItem item : v.getItems()) {
                 Producto producto = item.getProducto();
@@ -119,7 +128,8 @@ public class VentaService {
                         producto.getId(),
                         producto.getNombre(),
                         producto.getPrecio(),
-                        producto.getCategoria()
+                        producto.getCategoria(),
+                        producto.getCantidad()
                 ));
                 totals.put(producto.getId(), totals.getOrDefault(producto.getId(), 0) + item.getCantidad());
             }
