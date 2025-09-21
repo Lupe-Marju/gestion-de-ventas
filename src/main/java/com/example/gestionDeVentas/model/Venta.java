@@ -23,15 +23,6 @@ public class Venta {
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
 
-    /*@ManyToMany
-    @JoinTable(name = "producto_venta",
-            joinColumns = @JoinColumn(name = "producto_id"),
-            inverseJoinColumns = @JoinColumn(name = "venta_id")
-    )
-    private List<Producto> productosVendidos = new ArrayList<>();
-    @ElementCollection
-    private Map<Producto, Integer> cantidadDeProductoVendido = new HashMap<>();*/
-
     @OneToMany(mappedBy = "venta")
     private List<VentaItem> items = new ArrayList<>();
 }

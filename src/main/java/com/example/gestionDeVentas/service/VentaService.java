@@ -1,5 +1,6 @@
 package com.example.gestionDeVentas.service;
 
+import com.example.gestionDeVentas.dto.ProductoDto;
 import com.example.gestionDeVentas.dto.VentaDto;
 import com.example.gestionDeVentas.dto.VentaItemDto;
 import com.example.gestionDeVentas.exception.ProductoNotFoundException;
@@ -33,6 +34,16 @@ public class VentaService {
     @Autowired
     private VentaItemRepository ventaItemRepository;
 
+    public VentaDto convertirVentaAVentaDto(Venta venta){
+        VentaDto ventaDto = new VentaDto();
+        ventaDto.setVentaId(venta.getId());
+        ventaDto.setVentaSucursalId(venta.getSucursal().getId());
+        for(VentaItem ventaItem : venta.getItems()){
+ventaDto.getDetalle().add(new VentaItemDto(ventaItem.getProducto().getId(),ventaItem.getCantidad()));
+        }
+        return ventaDto;
+    }
+
     @Transactional
     public void registrarVenta(VentaDto ventaDto) {
         if (ventaDto == null || ventaDto.getVentaSucursalId() == null || ventaDto.getVentaSucursalId()<0 || ventaDto.getDetalle() == null || ventaDto.getDetalle().isEmpty())
@@ -61,15 +72,31 @@ public class VentaService {
         ventaRepository.save(venta);
     }
 
-    public List<Venta> obtenerVentas(Optional<Long> sucursalId, Optional<LocalDate> fecha) {
+    public List<VentaDto> obtenerVentas(Optional<Long> sucursalId, Optional<LocalDate> fecha) {
         if (sucursalId.isPresent() && fecha.isPresent()) {
-            return ventaRepository.findBySucursalIdAndFechaDeCreacion(sucursalId.get(), fecha.get());
+            return ventaRepository.findBySucursalIdAndFechaDeCreacion(sucursalId.get(), fecha.get())
+                    .stream()
+                    .filter(a->!a.isEliminada())
+                    .map(this::convertirVentaAVentaDto)
+                    .toList();
         } else if (sucursalId.isPresent()) {
-            return ventaRepository.findBySucursalId(sucursalId.get());
+            return ventaRepository.findBySucursalId(sucursalId.get())
+                    .stream()
+                    .filter(a->!a.isEliminada())
+                    .map(this::convertirVentaAVentaDto)
+                    .toList();
         } else if (fecha.isPresent()) {
-            return ventaRepository.findByFechaDeCreacion(fecha.get());
+            return ventaRepository.findByFechaDeCreacion(fecha.get())
+                    .stream()
+                    .filter(a->!a.isEliminada())
+                    .map(this::convertirVentaAVentaDto)
+                    .toList();
         } else {
-            return ventaRepository.findAll();
+            return ventaRepository.findAll()
+                    .stream()
+                    .filter(a->!a.isEliminada())
+                    .map(this::convertirVentaAVentaDto)
+                    .toList();
         }
     }
 
@@ -81,12 +108,18 @@ public class VentaService {
     }
 
     // producto mas vendido (suma cantidades)
-    public Optional<Map.Entry<Producto, Integer>> productoMasVendido() {
+    public Optional<Map.Entry<ProductoDto, Integer>> productoMasVendido() {
         List<Venta> ventas = ventaRepository.findAll();
-        Map<Producto, Integer> totals = new HashMap<>();
+        Map<ProductoDto, Integer> totals = new HashMap<>();
         for (Venta v : ventas) {
             for (VentaItem item : v.getItems()) {
-                totals.put(item.getProducto(), totals.getOrDefault(item.getProducto(), 0) + item.getCantidad());
+                Producto producto =  item.getProducto();
+                    ProductoDto productoDto = new ProductoDto(producto.getId(),
+                            producto.getNombre(),
+                            producto.getPrecio(),
+                            producto.getCategoria());
+                    totals.put(productoDto, totals.getOrDefault(productoDto, 0) + item.getCantidad());
+
             }
         }
         return totals.entrySet().stream().max(Map.Entry.comparingByValue());
