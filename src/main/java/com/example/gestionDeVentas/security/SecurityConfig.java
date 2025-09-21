@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .formLogin(form -> form.defaultSuccessUrl("/", true))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(Objeto()));
+                        .authenticationEntryPoint(AuthenticationFailure()));
         http.addFilterBefore(jwtfilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -54,7 +54,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationEntryPoint Objeto() {
+    public AuthenticationEntryPoint AuthenticationFailure() {
         return (request, response, authException) -> {
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
