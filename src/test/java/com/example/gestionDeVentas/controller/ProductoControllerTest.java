@@ -34,7 +34,7 @@ public class ProductoControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void listarProductos_ok() throws Exception {
+    void listarProductosOk() throws Exception {
         ProductoDto p = new ProductoDto(1L,"Arroz",100.0,"Alimentos");
         Mockito.when(productoService.listar()).thenReturn(List.of(p));
 

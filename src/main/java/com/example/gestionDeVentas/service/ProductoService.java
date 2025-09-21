@@ -23,7 +23,7 @@ public class ProductoService {
         return productoDto;
     }
 
-    public Producto converitirDtoAProducto(ProductoDto productoDto) {
+    public Producto convertirDtoAProducto(ProductoDto productoDto) {
         Producto producto = new Producto();
         producto.setPrecio(productoDto.getPrecioProducto());
         producto.setCategoria(productoDto.getCategoriaProducto());
@@ -34,6 +34,7 @@ public class ProductoService {
     public List<ProductoDto> listar() {
         return repository.findAll()
                 .stream()
+                .filter(p->!p.isEliminada())
                 .map(p -> convertirProductoADto(p))
                 .toList();
     }
@@ -46,7 +47,7 @@ public class ProductoService {
         productoDto.getPrecioProducto()==null||
         productoDto.getPrecioProducto()<=0)
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
-        repository.save(converitirDtoAProducto(productoDto));
+        repository.save(convertirDtoAProducto(productoDto));
     }
 
     public void actualizarProducto(ProductoDto productoDto, Long id) {
@@ -65,8 +66,8 @@ public class ProductoService {
     }
 
     public void eliminarProducto(Long id) {
-        if (!repository.existsById(id))
-            throw new ProductoNotFoundException("El producto con id " + id + " no fue encontrado");
-        repository.deleteById(id);
+        Producto producto = repository.findById(id).orElseThrow(()->new ProductoNotFoundException("El producto con id " + id + " no fue encontrado"));
+        producto.setEliminada(true);
+        repository.save(producto);
     }
 }
