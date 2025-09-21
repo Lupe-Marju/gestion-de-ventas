@@ -1,6 +1,6 @@
 package com.example.gestionDeVentas.model;
 
-//modela producto + cantidad por venta
+// modela producto + cantidad por venta
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="venta_items")
+@Table(name = "venta_items")
 public class VentaItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
