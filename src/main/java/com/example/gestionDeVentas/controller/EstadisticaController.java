@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,7 +30,7 @@ public class EstadisticaController {
         List<Map<String, Object>> response = topProductos.stream()
                 .map(entry -> Map.of(
                         "producto", entry.getKey(),
-                        "CantidadVendida", entry.getValue()
+                        "cantidadVendida", entry.getValue()
                 ))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(response);
