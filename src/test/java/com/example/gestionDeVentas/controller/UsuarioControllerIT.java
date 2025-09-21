@@ -1,7 +1,7 @@
-package com.example.gestionDeVentas;
+package com.example.gestionDeVentas.controller;
 
+import com.example.gestionDeVentas.GestionDeVentasApplication;
 import com.example.gestionDeVentas.dto.UsuarioDto;
-import com.example.gestionDeVentas.model.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
