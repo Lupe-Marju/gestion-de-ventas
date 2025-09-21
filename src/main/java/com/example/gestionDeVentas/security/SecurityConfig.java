@@ -32,9 +32,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // permitir swagger, login/registro y GET públicos
                         .requestMatchers("/usuario/**", "/doc/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/productos", "/api/sucursales", "/api/ventas").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/productos", "/api/sucursales", "/api/ventas", "/api/estadisticas/**").permitAll()
                         // proteger mutating endpoints
-                        .requestMatchers("/api/productos/**", "/api/sucursales/**", "/api/ventas/**", "/api/estadisticas/**").authenticated()
+                        .requestMatchers("/api/productos/**", "/api/sucursales/**", "/api/ventas/**").authenticated()
                         .anyRequest().authenticated())
                 .formLogin(form -> form.defaultSuccessUrl("/", true))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

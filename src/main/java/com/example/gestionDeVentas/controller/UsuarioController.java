@@ -1,5 +1,6 @@
 package com.example.gestionDeVentas.controller;
 
+import com.example.gestionDeVentas.dto.UsuarioDto;
 import com.example.gestionDeVentas.model.Usuario;
 import com.example.gestionDeVentas.service.JwtService;
 import com.example.gestionDeVentas.service.UsuarioService;
@@ -20,15 +21,15 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Usuario usuario) {
+    public ResponseEntity<String> login(@RequestBody UsuarioDto usuarioDto) {
         // delega en service la comprobación y generación del token
-        String token = usuarioService.comprobarUsuario(usuario);
+        String token = usuarioService.comprobarUsuario(usuarioDto);
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/registro")
-    public ResponseEntity<String> registrarUsuario(@RequestBody Usuario usuario) {
-        usuarioService.registrar(usuario.getUsername(), usuario.getPassword());
+    public ResponseEntity<String> registrarUsuario(@RequestBody UsuarioDto usuarioDto) {
+        usuarioService.registrar(usuarioDto.getMyUsername(), usuarioDto.getMyPassword());
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado correctamente");
     }
 }

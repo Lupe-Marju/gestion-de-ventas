@@ -1,11 +1,9 @@
 package com.example.gestionDeVentas.service;
 
+import com.example.gestionDeVentas.dto.UsuarioDto;
 import com.example.gestionDeVentas.model.Usuario;
 import com.example.gestionDeVentas.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,24 +25,34 @@ public class UsuarioService implements UserDetailsService {
     @Autowired
     private JwtService jwtService;
 
-    //Registramos usuario con contraseña encriptada
-    public void registrar(String username, String password){
+    // Registramos usuario con contraseña encriptada
+    public void registrar(String username, String password) {
+        if (username == null ||
+                username.isBlank() ||
+                password == null ||
+                password.isBlank()) {
+            throw new IllegalArgumentException("Los campos ingresados no son correctos");
+        }
+        if(repository.existsByUsername(username)){
+            throw new IllegalArgumentException("Ese nombre de usuario ya se encuentra utilizado.");
+        }
         Usuario usuario = new Usuario();
         usuario.setUsername(username);
-        usuario.setPassword(passwordEncoder.encode(password));//encriptamos la contraseña
+        usuario.setPassword(passwordEncoder.encode(password));// encriptamos la contraseña
         repository.save(usuario);
     }
-    //Autenticamos el usuario comparando la contraseña encriptada
-    public boolean autenticar (String username, String passwordIngresada){
+
+    // Autenticamos el usuario comparando la contraseña encriptada
+    public boolean autenticar(String username, String passwordIngresada) {
         Usuario usuario = repository.findByUsername(username)
-                .orElseThrow(()-> new UsernameNotFoundException("Usuaio no encontrado"));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuaio no encontrado"));
         return passwordEncoder.matches(passwordIngresada, usuario.getPassword());
     }
 
-    public String comprobarUsuario(Usuario usuario){
-        boolean valido = autenticar(usuario.getUsername(), usuario.getPassword());
+    public String comprobarUsuario(UsuarioDto usuarioDto) {
+        boolean valido = autenticar(usuarioDto.getMyUsername(), usuarioDto.getMyPassword());
         if (valido) {
-            return jwtService.generarToken(usuario.getUsername());
+            return jwtService.generarToken(usuarioDto.getMyUsername());
         } else {
             throw new IllegalArgumentException("Contraseña no valida");
         }
@@ -53,7 +61,7 @@ public class UsuarioService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = repository.findByUsername(username)
-                .orElseThrow(()->new UsernameNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         return new User(usuario.getUsername(), usuario.getPassword(), new ArrayList<>());
     }
 }

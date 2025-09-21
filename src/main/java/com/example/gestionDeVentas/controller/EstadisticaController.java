@@ -1,6 +1,7 @@
 package com.example.gestionDeVentas.controller;
 
 
+import com.example.gestionDeVentas.dto.ProductoDto;
 import com.example.gestionDeVentas.model.Producto;
 import com.example.gestionDeVentas.service.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class EstadisticaController {
 
     @GetMapping("/producto-mas-vendido")
     public ResponseEntity<?> productoMasVendido() {
-        Optional<Map.Entry<Producto, Integer>> top = ventaService.productoMasVendido();
+        Optional<Map.Entry<ProductoDto, Integer>> top = ventaService.productoMasVendido();
         if (top.isPresent()) {
             var entry = top.get();
             return ResponseEntity.ok(Map.of(

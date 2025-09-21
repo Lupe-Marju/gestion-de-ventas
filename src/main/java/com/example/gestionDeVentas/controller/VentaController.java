@@ -26,9 +26,9 @@ public class VentaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Venta>> listarVentas(@RequestParam(required = false) Long sucursalId,
+    public ResponseEntity<List<VentaDto>> listarVentas(@RequestParam(required = false) Long sucursalId,
                                                     @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha){
-        List<Venta> ventas = service.obtenerVentas(Optional.ofNullable(sucursalId), Optional.ofNullable(fecha));
+        List<VentaDto> ventas = service.obtenerVentas(Optional.ofNullable(sucursalId), Optional.ofNullable(fecha));
         return ResponseEntity.ok(ventas);
     }
 
