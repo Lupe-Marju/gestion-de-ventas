@@ -28,15 +28,7 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UsuarioDto usuarioDto, HttpServletRequest request) {
         // delega en service la comprobación y generación del token
-        String token = usuarioService.comprobarUsuario(usuarioDto);
-
-        LoginRegistro registro = LoginRegistro.builder()
-                .username(usuarioDto.getMyUsername())
-                .fechaHora(LocalDateTime.now())
-                .exito(true)
-                .build();
-        loginRegistroRepository.save(registro);
-
+        String token = usuarioService.login(usuarioDto, request);
         return ResponseEntity.ok(token);
     }
 
@@ -48,13 +40,6 @@ public class UsuarioController {
 
     @GetMapping("/logins")
     public ResponseEntity<List<LoginRegistroDto>> obtenerLogins(){
-        List<LoginRegistroDto> registros = loginRegistroRepository.findAll().stream()
-                .map(registro->LoginRegistroDto.builder()
-                        .registroUsername(registro.getUsername())
-                        .registroFechaHora(registro.getFechaHora())
-                        .registroExito(registro.isExito())
-                        .build())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(registros);
+        return ResponseEntity.ok(usuarioService.obtenerLogins());
     }
 }
