@@ -5,15 +5,10 @@ import com.example.gestionDeVentas.dto.VentaDto;
 import com.example.gestionDeVentas.dto.VentaItemDto;
 import com.example.gestionDeVentas.exception.ProductoNotFoundException;
 import com.example.gestionDeVentas.exception.SucursalNotFoundException;
-import com.example.gestionDeVentas.model.Producto;
-import com.example.gestionDeVentas.model.Sucursal;
-import com.example.gestionDeVentas.model.Venta;
-import com.example.gestionDeVentas.model.VentaItem;
-import com.example.gestionDeVentas.repository.ProductoRepository;
-import com.example.gestionDeVentas.repository.SucursalRepository;
-import com.example.gestionDeVentas.repository.VentaItemRepository;
-import com.example.gestionDeVentas.repository.VentaRepository;
+import com.example.gestionDeVentas.model.*;
+import com.example.gestionDeVentas.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +26,15 @@ public class VentaService {
     @Autowired
     private VentaItemRepository ventaItemRepository;
     @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
     private ProductoService productoService;
 
     public VentaDto convertirVentaAVentaDto(Venta venta) {
         VentaDto ventaDto = new VentaDto();
         ventaDto.setVentaId(venta.getId());
         ventaDto.setVentaSucursalId(venta.getSucursal().getId());
+        ventaDto.setUsuarioCreador(venta.getUsuario().getUsername());
         for (VentaItem ventaItem : venta.getItems()) {
             ventaDto.getDetalle().add(new VentaItemDto(ventaItem.getProducto().getId(), ventaItem.getCantidad()));
         }
@@ -44,7 +42,7 @@ public class VentaService {
     }
 
     @Transactional
-    public void registrarVenta(VentaDto ventaDto) {
+    public void registrarVenta(VentaDto ventaDto, String username) {
         if (ventaDto == null ||
                 ventaDto.getVentaSucursalId() == null ||
                 ventaDto.getVentaSucursalId() < 0 ||
@@ -54,9 +52,12 @@ public class VentaService {
         Sucursal sucursal = sucursalRepository.findById(ventaDto.getVentaSucursalId())
                 .orElseThrow(() -> new SucursalNotFoundException("La sucursal con id " + ventaDto.getVentaSucursalId() + " no fue encontrada"));
 
+        Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("El usuario " + username + " no ha sido encontrado"));
+
         Venta venta = new Venta();
         venta.setSucursal(sucursal);
         venta.setFechaDeCreacion(LocalDate.now());
+        venta.setUsuario(usuario);
 
         // crear items y agregar al objeto venta
         for (VentaItemDto itemDto : ventaDto.getDetalle()) {
