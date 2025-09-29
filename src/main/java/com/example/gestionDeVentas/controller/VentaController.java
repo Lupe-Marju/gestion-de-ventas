@@ -3,10 +3,12 @@ package com.example.gestionDeVentas.controller;
 import com.example.gestionDeVentas.dto.VentaDto;
 import com.example.gestionDeVentas.model.Venta;
 import com.example.gestionDeVentas.service.VentaService;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -20,8 +22,8 @@ public class VentaController {
     private VentaService service;
 
     @PostMapping
-    public ResponseEntity<String> registrarVenta(@RequestBody VentaDto ventaDto){
-        service.registrarVenta(ventaDto);
+    public ResponseEntity<String> registrarVenta(@RequestBody VentaDto ventaDto, Authentication authentication){
+        service.registrarVenta(ventaDto, authentication.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body("Venta registrada correctamente");
     }
 

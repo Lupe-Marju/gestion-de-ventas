@@ -15,5 +15,6 @@ import java.util.Map;
 public class VentaDto {
     private Long ventaId;
     private Long ventaSucursalId;
+    private String usuarioCreador;
     private List<VentaItemDto> detalle = new ArrayList<>();
 }

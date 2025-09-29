@@ -23,6 +23,10 @@ public class Venta {
     private boolean eliminada =false;
 
     @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    @ManyToOne
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
 
