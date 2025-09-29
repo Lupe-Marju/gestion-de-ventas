@@ -4,7 +4,6 @@ import com.example.gestionDeVentas.dto.LoginRegistroDto;
 import com.example.gestionDeVentas.dto.UsuarioDto;
 import com.example.gestionDeVentas.repository.LoginRegistroRepository;
 import com.example.gestionDeVentas.service.UsuarioService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +22,9 @@ public class UsuarioController {
     private LoginRegistroRepository loginRegistroRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UsuarioDto usuarioDto, HttpServletRequest request) {
+    public ResponseEntity<String> login(@RequestBody UsuarioDto usuarioDto) {
         // delega en service la comprobación y generación del token
-        String token = usuarioService.login(usuarioDto, request);
+        String token = usuarioService.login(usuarioDto);
         return ResponseEntity.ok(token);
     }
 
