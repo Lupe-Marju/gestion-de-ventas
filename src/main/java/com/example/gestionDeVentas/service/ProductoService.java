@@ -74,6 +74,7 @@ public class ProductoService {
         producto.setNombre(productoDto.getNombreProducto());
         producto.setPrecio(productoDto.getPrecioProducto());
         producto.setCategoria(productoDto.getCategoriaProducto());
+        producto.setCantidad(productoDto.getCantidadProducto());
         repository.save(producto);
     }
 
