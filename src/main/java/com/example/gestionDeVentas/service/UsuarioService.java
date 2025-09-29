@@ -6,7 +6,6 @@ import com.example.gestionDeVentas.model.LoginRegistro;
 import com.example.gestionDeVentas.model.Usuario;
 import com.example.gestionDeVentas.repository.LoginRegistroRepository;
 import com.example.gestionDeVentas.repository.UsuarioRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -75,7 +74,7 @@ public class UsuarioService implements UserDetailsService {
         return new User(usuario.getUsername(), usuario.getPassword(), new ArrayList<>());
     }
 
-    public String login(UsuarioDto usuarioDto, HttpServletRequest request) {
+    public String login(UsuarioDto usuarioDto) {
         String token = comprobarUsuario(usuarioDto);
         LoginRegistro registro = LoginRegistro.builder()
                 .username(usuarioDto.getMyUsername())
