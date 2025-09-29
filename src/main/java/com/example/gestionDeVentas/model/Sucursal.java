@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="sucursales")
+@Table(name = "sucursales")
 public class Sucursal {
 
     @Id
@@ -24,5 +24,5 @@ public class Sucursal {
     private String direccion;
 
     @OneToMany(mappedBy = "sucursal")
-    private List<Venta> ventas =new ArrayList<>();
+    private List<Venta> ventas = new ArrayList<>();
 }

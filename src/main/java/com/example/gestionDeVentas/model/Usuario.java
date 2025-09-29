@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name= "usuarios")
+@Table(name = "usuarios")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +23,6 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany (mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario")
     private List<Venta> ventas;
 }

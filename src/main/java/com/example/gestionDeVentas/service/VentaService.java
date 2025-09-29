@@ -52,7 +52,7 @@ public class VentaService {
         Sucursal sucursal = sucursalRepository.findById(ventaDto.getVentaSucursalId())
                 .orElseThrow(() -> new SucursalNotFoundException("La sucursal con id " + ventaDto.getVentaSucursalId() + " no fue encontrada"));
 
-        Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("El usuario " + username + " no ha sido encontrado"));
+        Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no ha sido encontrado"));
 
         Venta venta = new Venta();
         venta.setSucursal(sucursal);

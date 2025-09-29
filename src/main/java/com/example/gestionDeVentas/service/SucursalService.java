@@ -14,7 +14,7 @@ public class SucursalService {
     @Autowired
     private SucursalRepository repository;
 
-    public SucursalDto convertirSucursalaDto(Sucursal sucursal){
+    public SucursalDto convertirSucursalaDto(Sucursal sucursal) {
         return new SucursalDto(sucursal.getId(), sucursal.getNombre(), sucursal.getDireccion());
     }
 
@@ -24,10 +24,10 @@ public class SucursalService {
     }
 
     public void crearSucursal(SucursalDto sucursalDto) {
-        if (sucursalDto.getNombreSucursal()==null||
-        sucursalDto.getNombreSucursal().isBlank()||
-        sucursalDto.getDireccionSucursal()==null||
-        sucursalDto.getDireccionSucursal().isBlank())
+        if (sucursalDto.getNombreSucursal() == null ||
+                sucursalDto.getNombreSucursal().isBlank() ||
+                sucursalDto.getDireccionSucursal() == null ||
+                sucursalDto.getDireccionSucursal().isBlank())
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
         Sucursal sucursal = new Sucursal();
         sucursal.setNombre(sucursalDto.getNombreSucursal());
@@ -36,9 +36,9 @@ public class SucursalService {
     }
 
     public void actualizarSucursal(SucursalDto sucursalDto, Long id) {
-        if (sucursalDto.getNombreSucursal()==null||
-                sucursalDto.getNombreSucursal().isBlank()||
-                sucursalDto.getDireccionSucursal()==null||
+        if (sucursalDto.getNombreSucursal() == null ||
+                sucursalDto.getNombreSucursal().isBlank() ||
+                sucursalDto.getDireccionSucursal() == null ||
                 sucursalDto.getDireccionSucursal().isBlank())
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
         Sucursal sucursal = repository.findById(id)
@@ -49,7 +49,8 @@ public class SucursalService {
     }
 
     public void eliminarsucursal(Long id) {
-        if (!repository.existsById(id)) throw new SucursalNotFoundException("La sucursal con id " + id + " no fue encontrada");
+        if (!repository.existsById(id))
+            throw new SucursalNotFoundException("La sucursal con id " + id + " no fue encontrada");
         repository.deleteById(id);
     }
 }

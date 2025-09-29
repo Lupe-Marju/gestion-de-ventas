@@ -2,7 +2,6 @@ package com.example.gestionDeVentas.controller;
 
 import com.example.gestionDeVentas.dto.LoginRegistroDto;
 import com.example.gestionDeVentas.dto.UsuarioDto;
-import com.example.gestionDeVentas.model.LoginRegistro;
 import com.example.gestionDeVentas.repository.LoginRegistroRepository;
 import com.example.gestionDeVentas.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuario")
@@ -39,7 +36,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/logins")
-    public ResponseEntity<List<LoginRegistroDto>> obtenerLogins(){
+    public ResponseEntity<List<LoginRegistroDto>> obtenerLogins() {
         return ResponseEntity.ok(usuarioService.obtenerLogins());
     }
 }

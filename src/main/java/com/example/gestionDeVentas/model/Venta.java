@@ -18,7 +18,7 @@ public class Venta {
     @Column(nullable = false)
     private LocalDate fechaDeCreacion;
 
-    private boolean eliminada =false;
+    private boolean eliminada = false;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")

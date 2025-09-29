@@ -1,6 +1,5 @@
 package com.example.gestionDeVentas.controller;
 
-
 import com.example.gestionDeVentas.dto.ProductoDto;
 import com.example.gestionDeVentas.service.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;

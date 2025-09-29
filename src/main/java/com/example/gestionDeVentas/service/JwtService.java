@@ -18,16 +18,16 @@ public class JwtService {
         this.secretKey = Keys.hmacShaKeyFor(key.getBytes());
     }
 
-    public String generarToken(String username){
+    public String generarToken(String username) {
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()+1800000))
+                .expiration(new Date(System.currentTimeMillis() + 1800000))
                 .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
     }
 
-    public String validarToken(String token){
+    public String validarToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(secretKey) // Indica al parser cual fue la clave que usamos al crear el token
                 .build()

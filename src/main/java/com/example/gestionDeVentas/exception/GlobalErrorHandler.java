@@ -78,11 +78,11 @@ public class GlobalErrorHandler {
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorRespuesta> handlerException(Exception exception){
+    public ResponseEntity<ErrorRespuesta> handlerException(Exception exception) {
         ErrorRespuesta errorRespuesta = new ErrorRespuesta(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 exception.getMessage(),
                 System.currentTimeMillis());
-        return new ResponseEntity<>(errorRespuesta,HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorRespuesta, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

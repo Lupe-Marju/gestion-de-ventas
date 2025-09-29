@@ -33,8 +33,8 @@ public class ProductoService {
         return producto;
     }
 
-    public void restarCantidad(Integer cantidadRestada, Producto producto){
-        producto.setCantidad(producto.getCantidad()-cantidadRestada);
+    public void restarCantidad(Integer cantidadRestada, Producto producto) {
+        producto.setCantidad(producto.getCantidad() - cantidadRestada);
         repository.save(producto);
     }
 
@@ -53,7 +53,7 @@ public class ProductoService {
                 productoDto.getCategoriaProducto().isBlank() ||
                 productoDto.getPrecioProducto() == null ||
                 productoDto.getPrecioProducto() <= 0 ||
-                productoDto.getCantidadProducto() == null||
+                productoDto.getCantidadProducto() == null ||
                 productoDto.getCantidadProducto() <= 0) {
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
         }
@@ -67,7 +67,7 @@ public class ProductoService {
                 productoDto.getCategoriaProducto().isBlank() ||
                 productoDto.getPrecioProducto() == null ||
                 productoDto.getPrecioProducto() <= 0 ||
-                productoDto.getCantidadProducto() == null||
+                productoDto.getCantidadProducto() == null ||
                 productoDto.getCantidadProducto() <= 0)
             throw new IllegalArgumentException("Los campos ingresados no son correctos");
         Producto producto = repository.findById(id).orElseThrow(() -> new ProductoNotFoundException("El producto con id " + id + " no fue encontrado"));
@@ -85,11 +85,11 @@ public class ProductoService {
     }
 
     public void actualizarCantidadDeProducto(Integer cantidadNueva, Long id) {
-        if (cantidadNueva<=0){
+        if (cantidadNueva <= 0) {
             throw new IllegalArgumentException("Cantidad tiene que ser positiva");
         }
         Producto producto = repository.findById(id).orElseThrow(() -> new ProductoNotFoundException("El producto con id " + id + " no fue encontrado"));
-        producto.setCantidad(producto.getCantidad()+cantidadNueva);
+        producto.setCantidad(producto.getCantidad() + cantidadNueva);
         repository.save(producto);
     }
 }
