@@ -463,6 +463,10 @@
 			]
 		},
 		{
+			"name": "usuario",
+			"item": []
+		},
+		{
 			"name": "registrar usuario",
 			"request": {
 				"method": "POST",
@@ -515,6 +519,36 @@
 					"path": [
 						"usuario",
 						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registro de logins",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombreProducto\":\"sandia\",\r\n  \"precioProducto\":\"13.2\",\r\n  \"categoriaProducto\":\"fruta\",\r\n  \"cantidadProducto\":\"-12\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/usuario/logins",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usuario",
+						"logins"
 					]
 				}
 			},
