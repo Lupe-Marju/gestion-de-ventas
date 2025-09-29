@@ -1,7 +1,6 @@
 package com.example.gestionDeVentas.controller;
 
 import com.example.gestionDeVentas.dto.VentaDto;
-import com.example.gestionDeVentas.model.Venta;
 import com.example.gestionDeVentas.service.VentaService;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
