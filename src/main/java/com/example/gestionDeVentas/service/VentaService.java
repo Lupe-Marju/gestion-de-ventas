@@ -77,6 +77,7 @@ public class VentaService {
             ventaItemRepository.save(item);
         }
         ventaRepository.save(venta);
+
     }
 
     public List<VentaDto> obtenerVentas(Optional<Long> sucursalId, Optional<LocalDate> fecha) {
