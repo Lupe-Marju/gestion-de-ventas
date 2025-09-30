@@ -11,14 +11,14 @@ El presente proyecto implementa una API de gestión de ventas que permite a una 
 Todo con un enfoque en escalabilidad, seguridad y buenas prácticas REST.
 
 Funcionalidades Clave
-✔️ Gestión de productos: CRUD con validaciones de negocio.
-✔️ Gestión de sucursales: registro y mantenimiento de ubicaciones.
-✔️ Registro de ventas: asociadas a usuario y sucursal, con control de stock.
-✔️ Estadísticas avanzadas: consulta de productos más vendidos.
-✔️ Autenticación JWT: acceso restringido según tipo de operación.
-✔️ Swagger/OpenAPI: documentación autogenerada y navegable.
-✔️ Manejo centralizado de excepciones con @ControllerAdvice.
-✔️ Tests unitarios e integración para asegurar la calidad.
+    • Gestión de productos: CRUD con validaciones de negocio.
+    • Gestión de sucursales: registro y mantenimiento de ubicaciones.
+    • Registro de ventas: asociadas a usuario y sucursal, con control de stock.
+    • Estadísticas avanzadas: consulta de productos más vendidos.
+    • Autenticación JWT: acceso restringido según tipo de operación.
+    • Swagger/OpenAPI: documentación autogenerada y navegable.
+    • Manejo centralizado de excepciones con @ControllerAdvice.
+    • Tests unitarios e integración para asegurar la calidad.
 
 Endpoints Principales
 Autenticación
@@ -63,7 +63,7 @@ Configuración de la base de datos
        export SPRING_DATASOURCE_USERNAME=root
        export SPRING_DATASOURCE_PASSWORD=tuPassword
        export JWT_SECRET=unaClaveSecretaMuySegura123456789
-▶️ Ejecución
+Ejecución
 mvn spring-boot:run
 
 Testing
@@ -112,4 +112,3 @@ Buenas Prácticas Implementadas
     • Uso de programación funcional (Streams, Lambdas) en estadísticas.
     • Borrado lógico de productos y ventas para mantener integridad histórica.
 
-# gestion-de-ventas
