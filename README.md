@@ -141,12 +141,11 @@ Arquitectura del código
 El proyecto sigue una arquitectura en capas, asegurando separación de responsabilidades y mantenibilidad:
 
 src/main/java/com/example/gestionDeVentas
-│
-├── controller/	   Define endpoints REST (Productos, Sucursales, Ventas, Usuarios, Estadísticas)
-├── dto/ 		   Objetos de transferencia (ProductoDto, VentaDto, UsuarioDto, etc.)
-├── exception/       Manejo global de errores y excepciones personalizadas
-├── model/           Entidades JPA (Producto, Sucursal, Venta, VentaItem, Usuario)
-├── repository/      Interfaces JPA para acceso a datos
-├── security/        Configuración de Spring Security y filtro JWT
-├── service/         Lógica de negocio y validaciones
-└── GestionDeVentasApplication.java: Clase principal de Spring Boot
+- controller:	     Define endpoints REST (Productos, Sucursales, Ventas, Usuarios, Estadísticas)
+- dto: 		     Objetos de transferencia (ProductoDto, VentaDto, UsuarioDto, etc.)
+- exception:       Manejo global de errores y excepciones personalizadas
+- model:           Entidades JPA (Producto, Sucursal, Venta, VentaItem, Usuario)
+- repository:      Interfaces JPA para acceso a datos
+- security:        Configuración de Spring Security y filtro JWT
+- service:         Lógica de negocio y validaciones
+- GestionDeVentasApplication.java: Clase principal de Spring Boot
