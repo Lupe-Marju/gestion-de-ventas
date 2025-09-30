@@ -20,25 +20,31 @@ Funcionalidades Clave
     • Manejo centralizado de excepciones con @ControllerAdvice.
     • Tests unitarios e integración para asegurar la calidad.
 
+
 Endpoints Principales
+
 Autenticación
     • POST /usuario/registro → Crear usuario
     • POST /usuario/login → Obtener token JWT
+
 Sucursales
     • GET /api/sucursales
     • POST /api/sucursales
     • PUT /api/sucursales/{id}
     • DELETE /api/sucursales/{id}
+
 Productos
     • GET /api/productos
     • POST /api/productos
     • PUT /api/productos/{id}
     • PATCH /api/productos/{id}/{cantidad}
     • DELETE /api/productos/{id}
+
 Ventas
     • POST /api/ventas
     • GET /api/ventas?sucursalId=1&fecha=2025-06-01
     • DELETE /api/ventas/{id}
+
 Estadísticas
     • GET /api/estadisticas/producto-mas-vendido?topN=5
 
@@ -50,11 +56,14 @@ Seguridad
         2. Obtención de token JWT.
         3. Inclusión en cabecera Authorization: Bearer <token>.
 
+
 Instalación y Configuración
+
 Requisitos
     • Java 17+
     • Maven 3.9+
     • MySQL 8+
+
 Configuración de la base de datos
     1. Crear la base de datos:
        CREATE DATABASE gestion_ventas;
@@ -63,6 +72,7 @@ Configuración de la base de datos
        export SPRING_DATASOURCE_USERNAME=root
        export SPRING_DATASOURCE_PASSWORD=tuPassword
        export JWT_SECRET=unaClaveSecretaMuySegura123456789
+
 Ejecución
 mvn spring-boot:run
 
@@ -73,6 +83,7 @@ El proyecto incluye tests de integración y unitarios:
     • SucursalControllerIT
     • VentaServiceTest
     • GestionDeVentasApplicationTests
+
 Ejecutar con:
 mvn test
 
