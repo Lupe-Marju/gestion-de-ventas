@@ -1,4 +1,5 @@
-Gestión de Ventas - Supermercados
+Gestión de Ventas: Supermercados
+
 Plataforma desarrollada con Spring Boot 3, diseñada para la digitalización integral del proceso de ventas en una cadena de supermercados.
 
 Introducción
