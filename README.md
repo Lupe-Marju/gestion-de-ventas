@@ -117,6 +117,7 @@ Content-Type: application/json
   "cantidadProducto": 50
 }
 
+
 Buenas Prácticas Implementadas
     • Principio DTO vs Entity → separación entre modelo de datos y vista.
     • Validación de inputs antes de persistir en DB.
@@ -124,3 +125,28 @@ Buenas Prácticas Implementadas
     • Uso de programación funcional (Streams, Lambdas) en estadísticas.
     • Borrado lógico de productos y ventas para mantener integridad histórica.
 
+
+Tecnologías usadas
+    • Java 17
+    • Spring Boot 3 (Data JPA, Web, Security)
+    • Hibernate (JPA)
+    • MySQL 8
+    • JWT (JSON Web Token) para autenticación
+    • Swagger / OpenAPI (springdoc) para documentación automática
+    • Lombok para reducir boilerplate
+    • JUnit 5 + MockMvc para pruebas unitarias e integración
+
+
+Arquitectura del código
+El proyecto sigue una arquitectura en capas, asegurando separación de responsabilidades y mantenibilidad:
+
+src/main/java/com/example/gestionDeVentas
+│
+├── controller/	   Define endpoints REST (Productos, Sucursales, Ventas, Usuarios, Estadísticas)
+├── dto/ 		   Objetos de transferencia (ProductoDto, VentaDto, UsuarioDto, etc.)
+├── exception/       Manejo global de errores y excepciones personalizadas
+├── model/           Entidades JPA (Producto, Sucursal, Venta, VentaItem, Usuario)
+├── repository/      Interfaces JPA para acceso a datos
+├── security/        Configuración de Spring Security y filtro JWT
+├── service/         Lógica de negocio y validaciones
+└── GestionDeVentasApplication.java: Clase principal de Spring Boot
