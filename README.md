@@ -122,13 +122,13 @@ Buenas Prácticas Implementadas
     • Principio DTO vs Entity → separación entre modelo de datos y vista.
     • Validación de inputs antes de persistir en DB.
     • Manejo global de excepciones para respuestas consistentes.
-    • Uso de programación funcional (Streams, Lambdas) en estadísticas.
-    • Borrado lógico de productos y ventas para mantener integridad histórica.
+    • Uso de programación funcional.
+    • Borrado lógico de productos y ventas para mantener la integridad histórica.
 
 
 Tecnologías usadas
     • Java 17
-    • Spring Boot 3 (Data JPA, Web, Security)
+    • Spring Boot 3 (Data JPA, Web, Security, Lombok)
     • Hibernate (JPA)
     • MySQL 8
     • JWT (JSON Web Token) para autenticación
@@ -138,7 +138,7 @@ Tecnologías usadas
 
 
 Arquitectura del código
-El proyecto sigue una arquitectura en capas, asegurando separación de responsabilidades y mantenibilidad:
+El proyecto sigue una arquitectura en capas MVC, asegurando separación de responsabilidades y mantenibilidad:
 
 src/main/java/com/example/gestionDeVentas
 - controller:	     Define endpoints REST (Productos, Sucursales, Ventas, Usuarios, Estadísticas)
