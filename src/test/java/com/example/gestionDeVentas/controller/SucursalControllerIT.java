@@ -1,8 +1,12 @@
 package com.example.gestionDeVentas.controller;
 
 import com.example.gestionDeVentas.dto.SucursalDto;
+import com.example.gestionDeVentas.repository.SucursalRepository;
+import com.example.gestionDeVentas.repository.VentaItemRepository;
+import com.example.gestionDeVentas.repository.VentaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,7 +27,23 @@ public class SucursalControllerIT {
     private MockMvc mockMvc;
 
     @Autowired
+    private SucursalRepository sucursalRepository;
+
+    @Autowired
+    private VentaRepository ventaRepository;
+
+    @Autowired
+    private VentaItemRepository ventaItemRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void limpiarBase() {
+        ventaItemRepository.deleteAll();
+        ventaRepository.deleteAll();
+        sucursalRepository.deleteAll();
+    }
 
     @Test
     void crearYListarSucursalOk() throws Exception {
